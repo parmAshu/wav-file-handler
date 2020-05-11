@@ -35,6 +35,7 @@ class Wave_write:
 
         nframes = len(data) // (self._sampwidth * self._nchannels)
         
+        #if the system is big endian then, reverse the order of recorded sample bytes as the wav files are always little endian
         if self._sampwidth != 1 and sys.byteorder == 'big':
             data = audioop.byteswap(data, self._sampwidth)
 

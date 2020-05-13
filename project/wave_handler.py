@@ -9,11 +9,11 @@ WAVE_FORMAT_PCM = 0x0001
 
 class Wave_write:
     #class constructor
-    def __init__(self):
+    def __init__(self,nchannels,sampwidth,framerate):
         self.wavdata=b''
-        self._nchannels = 0
-        self._sampwidth = 0
-        self._framerate = 0
+        self._nchannels = nchannels
+        self._sampwidth = sampwidth
+        self._framerate = int(round(framerate))
         self._nframes = 0
     
     #function to set channel number
@@ -32,9 +32,7 @@ class Wave_write:
     def writeframes(self, data):
 
         self._write_header(len(data))
-
-        nframes = len(data) // (self._sampwidth * self._nchannels)
-        
+ 
         #if the system is big endian then, reverse the order of recorded sample bytes as the wav files are always little endian
         if self._sampwidth != 1 and sys.byteorder == 'big':
             data = audioop.byteswap(data, self._sampwidth)

@@ -1,0 +1,93 @@
+This module can be used to encode raw audio bytes into wav file format. This is important is we want to use speech recognition api like 
+the GOOGLE CLOUD PLATFORM SPEECH API. These audio data encoded in a particular format (mostly .wav). This module contains functions to 
+write the wav encoded data bytes into a bytes type string and not directly into a .wav files; this increses program exceution speed by avoiding
+time-taking process of writing files and then, reading them back. 
+
+THE MODULE LAYOUT:
+
+wave_handler
+|
+|
+|___ WAVE_FORMAT_PCM
+|      TYPE: GLOBAL VARIABLE
+|      DEFAULT VALUE: 0X0001
+|      DESCRIPTION: This variable holds a constant that is used for wave encoding in the 'Wave_write' class.
+|
+|___Wave_write
+|   | TYPE : CLASS
+|   | DESCRIPTION : This class is used to encode raw audio data bytes into wav file format.
+|   |
+|   |
+|   |___ wavdata
+|   |      TYPE: CLASS VARIABLE
+|   |      DEFAULT VALUE: b'' (empty bytes string)
+|   |      DESCRIPTION: This variable will hold the wav encoded bytes that will be returned to the calling script.
+|   |
+|   |___ _nchannels
+|   |      TYPE: CLASS VARIABLE
+|   |      DEFAULT VALUE: initialised by the class constructor
+|   |      DESCRIPTION: This variable holds the number of audio channels
+|   |
+|   |___ _sampwidth
+|   |      TYPE: CLASS VARIABLE
+|   |      DEFAULT VALUE: initialised by the class constructor
+|   |      DESCRIPTION: This variable holds bytes width of individual audio samples of the recording 
+|   |
+|   |  
+|   |___ _framerate
+|   |      TYPE: CLASS VARIABLE
+|   |      DEFAULT VALUE: initialised by the class constructor
+|   |      DESCRIPTION: This variable holds the frame rate of the audio recording
+|   |
+|   |
+|   |___ _nframes
+|   |      TYPE: CLASS VARIABLE
+|   |      DEFAULT VALUE: 0
+|   |      DESCRIPTION: This variable holds the number of frames in an audio recording. It is assigned values by the _write_header() function.
+|   |                   One frame consists of data bytes of all the channels of a sample.
+|   |
+|   |
+|   |___ datalength
+|   |      TYPE: CLASS VARIABLE 
+|   |      DEFAULT VALUE: .....
+|   |      DESCRIPTION: This variable holds the number of bytes in an audio recording. It is assigned values only by the _write_header() 
+|   |                   function. This is used for internal calculation of class functions.
+|   |
+|   |
+|   |
+|   |___ __init__()
+|   |      TYPE: CLASS FUNCTION
+|   |      PARAMETER:
+|   |        1. nchannels : the number of channels in the audio recording
+|   |        2. _sampwidth : the width of one sample (one channel) in audio recording
+|   |        3. framerate: the framerate of audio recording
+|   |      RETURNS: NOTHING
+|   |      DESCRIPTION: This function initializes the class varaibles
+|   |
+|   |
+|   |___ setchannels(), setsampwidth(), setframerate()
+|   |      TYPE: CLASS FUNCTIONS
+|   |      PARAMETERS: channels, sampwidth, framerate
+|   |      RETURN: NOTHING
+|   |      DESCRIPTION: These functions set the corresponding class variables after creating the object.
+|   |      NOTE: Always provide correct details of audio recording when calling these functions, otherwise the operation may fail or give
+|   |            unpredictable results
+|   |
+|   |
+|   |___ writeframes()
+|   |      TYPE: CLASS FUNCTION
+|   |      PARAMETERS: a bytes type string containing the raw audio data bytes
+|   |      RETURN: a bytes type string containing wav encoded data
+|   |      DESCRIPTION: This function accepts the raw audio data bytes and returns a wav encoded bytes string. This function makes use of the  
+|   |                   '_write_headers()' function. The encoded bytes are stored in wavdata class variable as well.
+|   |
+|   |
+|   |
+|   |___ _write_headers()
+|          TYPE: CLASS FUNCTION
+|          PARAMETERS: the total number of data BYTES in the raw audio reccording
+|          RETURNS: NOTHING
+|          DESCRIPTION: This function writes the wav headers into wavdata class variable. This function is called by the write frames function
+|                       prior to writing the actual data bytes into wavdata class variable.
+|
+
